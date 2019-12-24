@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-class ItemInput extends Component{
+class ItemInput extends Component {
     state = {
         milk: null
     }
@@ -10,22 +10,32 @@ class ItemInput extends Component{
             [e.target.name]: e.target.value
         })
     }
-    handleSubmit = (e) =>{
+    handleSubmit = (e) => {
         e.preventDefault();
         this.props.addItem(this.state);
         this.setState({
             milk: ""
         })
     }
-    render(){
+    render() {
         return (
-        <form onSubmit = {this.handleSubmit}> 
-        <input type = "text" name = "milk" onChange={this.handleChange} placeholder = "name" value = {this.state.milk}/>
-        <input type = "submit" value = "submit" />
-        </form>
+            <form onSubmit={this.handleSubmit}>
+                <input type="text" name="milk" onChange={this.handleChange} placeholder="name" value={this.state.milk} />
+                <input type="submit" value="submit" />
+            </form>
         )
     }
 }
 
-    
-export default ItemInput
+const mapStateToProps = (state) => {
+    return {
+        item: state.item
+    }
+}
+
+const mapAddToProps = (dispatch) => {
+    return {
+        addItem: (value) => dispatch({ type: 'ADD_ITEM', value: value })
+    }
+}
+export default connect(mapStateToProps, mapAddToProps)(ItemInput)
