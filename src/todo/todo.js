@@ -1,24 +1,55 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Accordion from 'react-bootstrap/Accordion';
+import Button from 'react-bootstrap/Button'
+import Card from 'react-bootstrap/Card'
+import Req from './todoReqList';
 
-class todo extends Component{
-    render(){
-        const {items} = this.props;
-        const itemList = items.map(item => {
-            return(
-            <li className = "list-group-item d-flex justify-content-between" key = {item.id}>
-                {item.milk} 
-                <button class = "justify-content-end"onClick = {() => this.props.delete(item.id)}> x </button>
-            </li>
+class todo extends Component {
+
+
+    render() {
+
+        const item = this.props.item;
+        const itemList = item.map(item => {
+            return (
+                <Card>
+                    <Card.Header>
+                        <Link to={'/todo/' + item.id}>
+                            <Accordion.Toggle as={Button} variant="link" eventKey= {item.id}>
+                                {item.milk}
+                            </Accordion.Toggle>
+                        </Link>
+                    </Card.Header>
+
+                    <Accordion.Collapse eventKey = {item.id}>
+                        <Card.Body><Req list = {item}></Req> </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
             )
         });
 
         return (
-            
-            <ul className = "list-group">
-                <li className ="list-group-item">list of item need to do</li>
-                {itemList}
-            </ul>
+            <div>
+                <Accordion>
+                    <Card bg = "primary" text = "white">
+                        <Card.Header>
+                            list of things need to do
+                        </Card.Header>
+                    </Card>
+                    {itemList}
+                </Accordion>
+            </div>
         )
     }
 }
-export default todo;
+
+const mapStateToProps = (state) => {
+    return {
+        item: state.item
+    }
+}
+
+
+export default connect(mapStateToProps)(todo);

@@ -1,9 +1,9 @@
 import React from 'react';
 import SkillInput from '../PreSkill/SkillInput'
-const Home = ({addSkill}) =>{
-    return(
+const Home = ({ addSkill }) => {
+    return (
         <div>
-            <SkillInput addSkill = {addSkill} />
+            <SkillInput addSkill={addSkill} />
         </div>
 
     )
